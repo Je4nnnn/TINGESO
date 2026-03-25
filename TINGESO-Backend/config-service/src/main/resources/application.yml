@@ -9,8 +9,10 @@ spring:
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/config-repo/
+        git:
+          default-label: main
+          uri: https://github.com/Je4nnnn/TINGESO
+
 
 eureka:
   client:

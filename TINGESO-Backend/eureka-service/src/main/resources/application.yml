@@ -1,15 +1,5 @@
-server:
-  port: 8761
-
 spring:
   application:
     name: eureka-service
   config:
-    import: "optional:configserver:http://localhost:8888"
-
-eureka:
-  client:
-    register-with-eureka: false
-    fetch-registry: false
-  server:
-    wait-time-in-ms-when-sync-empty: 0
+    import: "configserver:http://localhost:8888"
