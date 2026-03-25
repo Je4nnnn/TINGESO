@@ -1,5 +1,12 @@
 spring:
   application:
     name: eureka-service
-  config:
-    import: "configserver:http://localhost:8888"
+  cloud:
+    config:
+      fail-fast: false
+      retry:
+        max-attempts: 6
+        max-interval: 2000
+        initial-interval: 1000
+      enabled: true
+      uri: http://localhost:8888
