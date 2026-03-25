@@ -1,0 +1,241 @@
+﻿---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: m1-inventario
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: m1-inventario
+  template:
+    metadata:
+      labels:
+        app: m1-inventario
+    spec:
+      containers:
+      - name: m1-inventario
+        image: je4nn/m1-inventario:v1
+        envFrom:
+        - configMapRef:
+            name: toolrent-config
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-service:5432/db_m1_inventario
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: m1-inventario
+spec:
+  selector:
+    app: m1-inventario
+  ports:
+  - port: 80
+    targetPort: 80---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: m2-prestamos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: m2-prestamos
+  template:
+    metadata:
+      labels:
+        app: m2-prestamos
+    spec:
+      containers:
+      - name: m2-prestamos
+        image: je4nn/m2-prestamos:v1
+        envFrom:
+        - configMapRef:
+            name: toolrent-config
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-service:5432/db_m2_prestamos
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: m2-prestamos
+spec:
+  selector:
+    app: m2-prestamos
+  ports:
+  - port: 80
+    targetPort: 80---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: m3-clientes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: m3-clientes
+  template:
+    metadata:
+      labels:
+        app: m3-clientes
+    spec:
+      containers:
+      - name: m3-clientes
+        image: je4nn/m3-clientes:v1
+        envFrom:
+        - configMapRef:
+            name: toolrent-config
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-service:5432/db_m3_clientes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: m3-clientes
+spec:
+  selector:
+    app: m3-clientes
+  ports:
+  - port: 80
+    targetPort: 80---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: m4-tarifas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: m4-tarifas
+  template:
+    metadata:
+      labels:
+        app: m4-tarifas
+    spec:
+      containers:
+      - name: m4-tarifas
+        image: je4nn/m4-tarifas:v1
+        envFrom:
+        - configMapRef:
+            name: toolrent-config
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-service:5432/db_m4_tarifas
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: m4-tarifas
+spec:
+  selector:
+    app: m4-tarifas
+  ports:
+  - port: 80
+    targetPort: 80---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: m5-kardex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: m5-kardex
+  template:
+    metadata:
+      labels:
+        app: m5-kardex
+    spec:
+      containers:
+      - name: m5-kardex
+        image: je4nn/m5-kardex:v1
+        envFrom:
+        - configMapRef:
+            name: toolrent-config
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-service:5432/db_m5_kardex
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: m5-kardex
+spec:
+  selector:
+    app: m5-kardex
+  ports:
+  - port: 80
+    targetPort: 80---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: m6-reportes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: m6-reportes
+  template:
+    metadata:
+      labels:
+        app: m6-reportes
+    spec:
+      containers:
+      - name: m6-reportes
+        image: je4nn/m6-reportes:v1
+        envFrom:
+        - configMapRef:
+            name: toolrent-config
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-service:5432/db_m6_reportes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: m6-reportes
+spec:
+  selector:
+    app: m6-reportes
+  ports:
+  - port: 80
+    targetPort: 80---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: m7-usuarios
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: m7-usuarios
+  template:
+    metadata:
+      labels:
+        app: m7-usuarios
+    spec:
+      containers:
+      - name: m7-usuarios
+        image: je4nn/m7-usuarios:v1
+        envFrom:
+        - configMapRef:
+            name: toolrent-config
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-service:5432/db_m7_usuarios
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: m7-usuarios
+spec:
+  selector:
+    app: m7-usuarios
+  ports:
+  - port: 80
+    targetPort: 80
+
+

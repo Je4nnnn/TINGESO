@@ -1,0 +1,61 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+data:
+  POSTGRES_USER: postgres
+  POSTGRES_DB: defaultdb
+  POSTGRES_PASSWORD: password
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          # Using an init container to create the 7 databases at startup
+          lifecycle:
+            postStart:
+              exec:
+                command: 
+                - /bin/bash
+                - -c
+                - >
+                  sleep 5;
+                  psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'db_m1_inventario'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE db_m1_inventario";
+                  psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'db_m2_prestamos'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE db_m2_prestamos";
+                  psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'db_m3_clientes'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE db_m3_clientes";
+                  psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'db_m4_tarifas'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE db_m4_tarifas";
+                  psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'db_m5_kardex'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE db_m5_kardex";
+                  psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'db_m6_reportes'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE db_m6_reportes";
+                  psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'db_m7_usuarios'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE db_m7_usuarios";
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+
+

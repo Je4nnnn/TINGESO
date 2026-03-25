@@ -1,0 +1,17 @@
+server:
+  port: 0
+
+# M6 does not necessarily need a DB, but we will configure one just in case 
+# as the instructions strictly state each microservice uses its own relational DB.
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/db_m6_reportes
+    username: postgres
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
